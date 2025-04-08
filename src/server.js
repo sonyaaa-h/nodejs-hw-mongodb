@@ -2,9 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import pino from 'pino-http';
 import { getEnvVar } from './utils/getEnvVar.js';
+import contactRouter from './routers/contacts.js';
+import { errorHandler } from './middlewares/errorHandler.js';
+import { notFoundHandler } from './middlewares/notFoundHandler.js';
 
-import { getContacts } from './services/contacts.js';
-import { getContactById } from './services/contacts.js';
 
 export const setuupServer = () => {
     const app = express();
@@ -18,38 +19,11 @@ export const setuupServer = () => {
         }
     }));
 
-    app.get('/contacts', async (req, res) => {
-        const data = await getContacts();
-        res.json({
-            status: 200,
-            message: "Successfully found contacts!",
-            data,
-        });
-    });
+    app.use(contactRouter);
 
-    app.get("/contacts/:contactId", async (req, res) => {
-        const { contactId } = req.params;
+    app.use(notFoundHandler);
 
-        const data = await getContactById(contactId);
-
-        if (!data) {
-            return res.status(404).json({
-                message: "Contact not found",
-            });
-        }
-
-        res.json({
-            status: 200,
-            message: `Successfully found contact with id ${contactId}!`,
-            data,
-        });
-    });
-
-    app.use((req, res) => {
-        res.status(404).json({
-            message: `${req.url} not found`
-        });
-    });
+    app.use(errorHandler);
 
     const PORT = Number(getEnvVar('PORT', 3000)); ;
 
