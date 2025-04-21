@@ -10,21 +10,36 @@ export const getContacts = async ({
     filters = {},
 }) => {
     const skip = (page - 1) * perPage;
+    console.log(
+        'filters.isFavourite:',
+        filters.isFavourite,
+        typeof filters.isFavourite,
+    );
 
     const contactQuery = ContactsCollection.find();
-    if(filters.contactType) {
-        contactQuery.where("contactType").equals(filters.contactType);
+    if (filters.contactType) {
+        contactQuery.where('contactType').equals(filters.contactType);
     }
 
-    if(typeof filters.isFavourite === "boolean") {
-        contactQuery.where("isFavourite").equals(filters.isFavourite);
+    if (filters.isFavourite === true || filters.isFavourite === 'true') {
+        contactQuery.where('isFavourite').equals(true);
+    } else if (filters.isFavourite === false || filters.isFavourite === 'false') {
+        contactQuery.where('isFavourite').equals(false);
     }
 
-    const data = await contactQuery
-        .skip(skip)
-        .limit(perPage)
-        .sort({ [sortBy]: sortOrder });
-    const totalItems = await ContactsCollection.find().merge(contactQuery).countDocuments();
+    // const data = await contactQuery
+    //     .skip(skip)
+    //     .limit(perPage)
+    //     .sort({ [sortBy]: sortOrder });
+    // const totalItems = await ContactsCollection.find().merge(contactQuery).countDocuments();
+
+    const [totalItems, data] = await Promise.all([
+        ContactsCollection.find().merge(contactQuery).countDocuments(),
+        contactQuery
+            .skip(skip)
+            .limit(perPage)
+            .sort({ [sortBy]: sortOrder }),
+    ]);
 
     const paginationData = calcPaginationData({ page, perPage, totalItems });
 

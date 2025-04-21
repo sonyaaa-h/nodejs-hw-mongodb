@@ -14,7 +14,7 @@ import { parseContactFilterParams } from '../utils/filters/parseContactFilterPar
 export const getContactsController = async (req, res) => {
     const paginationParams = parsePaginationParams(req.query);
     const sortParams = parseSortParams(req.query, contactSortFields);
-    const filters = parseContactFilterParams(req.params);
+    const filters = parseContactFilterParams(req.query);
     const data = await getContacts({...paginationParams, ...sortParams, filters});
     res.json({
         status: 200,
