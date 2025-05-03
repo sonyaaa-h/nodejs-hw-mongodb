@@ -57,18 +57,18 @@ export const getContacts = async ({
     };
 };
 
-export const getContactById = (id) => ContactsCollection.findOne({ _id: id });
+export const getContactById = (id, userId) => ContactsCollection.findOne({ _id: id, userId });
 
-export const createContact = (payload) => ContactsCollection.create(payload);
+export const createContact = (payload, userId) => ContactsCollection.create({...payload, userId});
 
-export const updateContact = async (id, payload) => {
+export const updateContact = async (id, payload, userId) => {
     const data = await ContactsCollection.findOneAndUpdate(
-        { _id: id },
+        { _id: id, userId },
         { $set: payload },
     );
 
     return data;
 };
 
-export const deleteContact = (id) =>
-    ContactsCollection.findOneAndDelete({ _id: id });
+export const deleteContact = (id, userId) =>
+    ContactsCollection.findOneAndDelete({ _id: id, userId });
