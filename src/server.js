@@ -9,7 +9,7 @@ import authRouter from './routers/auth.js';
 import cookieParser from 'cookie-parser';
 
 
-export const setuupServer = () => {
+export const setupServer = () => {
     const app = express();
 
 
