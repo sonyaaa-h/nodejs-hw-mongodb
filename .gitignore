@@ -4,6 +4,9 @@
 
 .env
 
+**/temp**
+**/uploads**
+
 .vscode
 .DS_Store
 .idea
