@@ -17,23 +17,23 @@ const contactRouter = Router();
 
 contactRouter.use(authenticate);
 
-contactRouter.get('/contacts', ctrlWrapper(getContactsController));
+contactRouter.get('/', ctrlWrapper(getContactsController));
 
 contactRouter.get(
-    '/contacts/:contactId',
+    '/:contactId',
     isValidId,
     ctrlWrapper(getContactByIdController),
 );
 
 contactRouter.post(
-    '/contacts',
+    '/',
     upload.single('photo'),
     validateBody(contactAddSchema),
     ctrlWrapper(createContactController),
 );
 
 contactRouter.patch(
-    '/contacts/:contactId',
+    '/:contactId',
     isValidId,
     upload.single('photo'),
     validateBody(contactUpdateSchema),
@@ -41,7 +41,7 @@ contactRouter.patch(
 );
 
 contactRouter.delete(
-    '/contacts/:contactId',
+    '/:contactId',
     isValidId,
     ctrlWrapper(deleteContactController),
 );
