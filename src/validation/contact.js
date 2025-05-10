@@ -21,15 +21,9 @@ export const contactAddSchema = Joi.object({
 });
 
 export const contactUpdateSchema = Joi.object({
-    name: Joi.string().min(3).max(20).messages({
-        "string.min": "Name should nave at least 3 characters",
-        "string.max": "Name should have at most 20 characters",
-    }),
+    name: Joi.string().min(3).max(20),
     phoneNumber: Joi.number(),
-    email: Joi.string().email().min(3).max(20).messages({
-        "string.min": "Email should nave at least 3 characters",
-        "string.max": "Email should have at most 20 characters",
-    }),
+    email: Joi.string().email(),
     isFavourite: Joi.boolean(),
     contactType: Joi.string().valid(...typeList),
 });

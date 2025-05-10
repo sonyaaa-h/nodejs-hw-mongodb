@@ -18,7 +18,7 @@ export const getContacts = async ({
 
     const contactQuery = ContactsCollection.find();
 
-    if(filters.userId){
+    if (filters.userId) {
         contactQuery.where('userId').equals(filters.userId);
     }
 
@@ -57,14 +57,17 @@ export const getContacts = async ({
     };
 };
 
-export const getContactById = (id, userId) => ContactsCollection.findOne({ _id: id, userId });
+export const getContactById = (id, userId) =>
+    ContactsCollection.findOne({ _id: id, userId });
 
-export const createContact = (payload, userId) => ContactsCollection.create({...payload, userId});
+export const createContact = (payload, userId) =>
+    ContactsCollection.create({ ...payload, userId });
 
-export const updateContact = async (id, payload, userId) => {
+export const updateContact = async (id, userId, payload) => {
     const data = await ContactsCollection.findOneAndUpdate(
         { _id: id, userId },
         { $set: payload },
+        { new: true, runValidators: true },
     );
 
     return data;

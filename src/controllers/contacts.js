@@ -58,6 +58,7 @@ export const createContactController = async (req, res) => {
     const { _id: userId } = req.user;
     const photo = req.file;
     let photoUrl;
+    console.log('PARAMS:', req.params);
 
     if (photo) {
         if (getEnvVar('ENABLE_CLOUDINARY') === 'true') {
