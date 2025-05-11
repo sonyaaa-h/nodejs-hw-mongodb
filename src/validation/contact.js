@@ -32,5 +32,5 @@ export const contactUpdateSchema = Joi.object({
     }),
     isFavourite: Joi.boolean(),
     contactType: Joi.string().valid(...typeList),
-    photo: Joi.string().uri()
+    photo: Joi.string().uri().allow('', null)
 });
