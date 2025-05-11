@@ -63,4 +63,4 @@ responses:
   '401':
     $ref: '../../components/responses/401.yaml'
   '400':
-    $ref: ../../components/responses/400.yaml
+    $ref: '../../components/responses/400.yaml'
